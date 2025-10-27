@@ -71,6 +71,18 @@ namespace mce {
             float pitch = -glm::degrees(std::atan2(normLook.y, hDist));
             return Vec2(pitch, yaw);
         }
+
+        static Vec3 rotationToViewVector(const Vec2& rotation)
+        {
+            float pitch = glm::radians(rotation.x);
+            float yaw = glm::radians(rotation.y);
+
+            float x = std::cos(pitch) * std::cos(yaw + glm::half_pi<float>());
+            float y = std::sin(-pitch);
+            float z = std::cos(pitch) * std::sin(yaw + glm::half_pi<float>());
+
+            return Vec3(x, y, z);
+        }
         
         static float wrapRadians(float angle)
         {

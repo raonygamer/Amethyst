@@ -9,6 +9,7 @@
 #include "mc/src/common/SharedPtr.hpp"
 #include "mc/src/common/world/item/UseAnim.hpp"
 #include "mc/src/common/world/level/Tick.hpp"
+#include "mc/src/common/world/item/enchanting/ItemEnchants.hpp"
 
 class Item;
 class CompoundTag;
@@ -23,6 +24,9 @@ class HashedString;
 /** @vptr {0x4E2C5E8} */
 class ItemStackBase {
 public:
+	/** @sig {4C 8D 3D ? ? ? ? 90 83 FB} */
+	MC static std::string TAG_ENCHANTS;
+
     /* this + 008 */ WeakPtr<Item> mItem;
     /* this + 016 */ CompoundTag* mUserData;
     /* this + 024 */ const Block* mBlock;
@@ -44,9 +48,9 @@ public:
     ItemStackBase& operator=(const ItemStackBase&);
 
     /** @vidx {0} */ MC virtual ~ItemStackBase();
-    /** @vidx {1} */ MC virtual void reinit(const Item& item, int count, int auxValue);
+    /** @vidx {3} */ MC virtual void reinit(const Item& item, int count, int auxValue);
     /** @vidx {2} */ MC virtual void reinit(const BlockLegacy& block, int count);
-    /** @vidx {3} */ MC virtual void reinit(std::string_view name, int count, int auxValue);
+    /** @vidx {1} */ MC virtual void reinit(std::string_view name, int count, int auxValue);
     /** @vidx {4} */ MC virtual void setNull(std::optional<std::string> reason);
     /** @vidx {5} */ MC virtual std::string toString() const;
     /** @vidx {6} */ MC virtual std::string toDebugString() const;
@@ -55,18 +59,23 @@ public:
     MC void _loadItem(const CompoundTag*);
     /** @sig {48 89 5C 24 ? 48 89 74 24 ? 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 48 8B FA 48 8B F1 48 89 94 24 ? ? ? ? 48 8D 59} */
     MC void setUserData(std::unique_ptr<CompoundTag> userData);
+	/** @sig {48 89 5C 24 ? 55 56 57 48 81 EC ? ? ? ? 48 8B F2 48 8B E9 48 89 54 24} */
+	MC ItemEnchants constructItemEnchantsFromUserData() const;
 
-    const Item* getItem() const;
+    Item* getItem() const;
     bool isNull() const;
     bool isLiquidClipItem() const;
     bool shouldInteractionWithBlockBypassLiquid(const Block& block) const;
     bool isInstance(const HashedString& itemName, bool useItemLookup) const;
     bool isBlock() const;
     bool isOffhandItem() const;
+	bool isEnchanted() const;
     WeakPtr<BlockLegacy> getLegacyBlock() const;
     operator bool() const;
     bool hasTag(const HashedString& tag) const;
     UseAnim getUseAnimation() const;
+	bool canDestroySpecial(const Block& block) const;
+	bool canDestroyOptimally(const Block& block) const;
 private:
     bool _isInstance(std::string_view itemName) const;
 };

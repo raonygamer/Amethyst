@@ -61,58 +61,82 @@ public:
 
     /// @vidx {inherit}
     MC virtual ~MinecraftScreenController() override;
+
     /// @vidx {inherit}
     MC virtual ui::DirtyFlag tick() override;
+
     /// @vidx {inherit}
     MC virtual void onOpen() override;
+
     /// @vidx {inherit}
     MC virtual void onInit() override;
+
     /// @vidx {inherit}
     MC virtual void onDelete() override;
+
     /// @vidx {inherit}
     MC virtual ui::ViewRequest tryExit() override;
+
     /// @vidx {inherit}
     MC virtual void leaveScreen(const std::string&) override;
 
     /// @vidx {inherit}
     MC virtual bool bind(const std::string&, uint32_t, const std::string&, UIPropertyBag&) override;
+
     /// @vidx {inherit}
     MC virtual bool bind(const std::string&, uint32_t, int, const std::string&, uint32_t, const std::string&, UIPropertyBag&) override;
     
     /// @vidx {inherit}
     MC virtual void onDictationEvent(const std::string&) override;
+
     /// @vidx {inherit}
     MC virtual void setSuspendInput(bool) override;
+
     /// @vidx {inherit}
     MC virtual uint32_t getSceneId() override;
+
     /// @vidx {inherit}
     MC virtual bool _doesScreenHaveExitBehavior() override;
+
     /// @vidx {39}
     MC virtual bool _isStillValid();
+
     /// @vidx {40}
     MC virtual bool _getGamepadHelperVisible();
+
     /// @vidx {41}
     MC virtual bool _getMixedHelperVisible();
+
     /// @vidx {42}
     MC virtual bool _getKeyboardHelperVisible();
+
     /// @vidx {43}
     MC virtual bool _getGestureControlEnabled();
+
     /// @vidx {44}
     MC virtual std::string _getButtonStartDescription();
+
     /// @vidx {45}
     MC virtual std::string _getButtonADescription();
+
     /// @vidx {46}
     MC virtual std::string _getButtonBDescription();
+
     /// @vidx {47}
     MC virtual std::string _getButtonXDescription();
+
     /// @vidx {48}
     MC virtual std::string _getButtonYDescription();
+
     /// @vidx {49}
     MC virtual std::string _getButtonKeyboardDescription();
+
     /// @vidx {50}
     MC virtual void showPickCustomSkinDialog(std::function<void(PickCustomSkinResult)>);
+
     /// @vidx {51}
     MC virtual std::string _getScreenName();
+
     /// @vidx {52}
     MC virtual ui::ViewRequest promptConnect(bool, std::function<void(Social::UserPlatformConnectionResult)>);
 };

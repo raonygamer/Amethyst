@@ -1,6 +1,7 @@
 #include "mc/src/common/world/phys/Vec3.hpp"
 #include <cmath>
 #include <mc/src/common/world/level/BlockPos.hpp>
+#include "Vec3.hpp"
 
 const float PI = 3.14159265358979f;
 
@@ -76,6 +77,15 @@ Vec3 Vec3::operator/(const Vec3 rhs) const
 bool Vec3::operator==(const Vec3 rhs) const
 {
     return this->x - rhs.x && this->y - rhs.y && this->z - rhs.z;
+}
+
+Vec3& Vec3::operator=(const Vec3& other) {
+	if (this != &other) {
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
+	return *this;
 }
 
 // Rotate a vector around the X axis by angle in radians

@@ -30,9 +30,15 @@ void Amethyst::UIHooks::StartMenuScreenControllerHooks::_registerBindings(StartM
     // Register '#mods_loaded' binding
     self->bindString(StringHash("#mods_loaded"), [&context]() -> std::string {
         // Not beautiful but works
-        if (reinterpret_cast<uintptr_t>(&getI18n) == reinterpret_cast<uintptr_t>(&Amethyst::RuntimeImporter::UninitializedFunctionHandler) || !context.mModLoader) {
+        auto* mod = GetOwnMod();
+        if (!mod)
+			return "No mods loaded";
+
+        auto* importer = mod->GetImporter();
+        if (!importer || !importer->IsResolved() || !context.mModLoader) {
             return "No mods loaded";
         }
+
         size_t count = context.mModLoader->GetModCount();
         std::string modsLoadedLocalized = "text.amethyst.mods_loaded"_i18n;
         bool plural = (count != 1);

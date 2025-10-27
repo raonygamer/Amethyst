@@ -4,13 +4,13 @@
 uint32_t cg::ImageDescription::getStrideFromFormat(const mce::TextureFormat format)
 {
     switch (format) {
-    case mce::TextureFormat::R32G32B32A32_FLOAT:
+    case mce::TextureFormat::R32g32b32a32Float:
         return 16;
 
-    case mce::TextureFormat::R8G8B8A8_UNORM:
+    case mce::TextureFormat::R8g8b8a8Unorm:
         return 4;
 
-    case mce::TextureFormat::A8_UNORM:
+    case mce::TextureFormat::A8Unorm:
         return 1;
 
     default:

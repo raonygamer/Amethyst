@@ -8,9 +8,8 @@
 #include <amethyst/Imports.hpp>
 
 class ScreenContext;
-class FrameRenderObject;
+struct FrameRenderObject;
 class RenderChunkCoordinator;
-
 class LevelRenderer : public LevelListener, public AppPlatformListener {
 public:
     /* this + 24  */ std::unordered_map<DimensionType, std::unique_ptr<RenderChunkCoordinator>> mRenderChunkCoordinators;

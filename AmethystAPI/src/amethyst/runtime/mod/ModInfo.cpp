@@ -174,12 +174,12 @@ std::expected<ModInfo, ModError> ModInfo::FromFile(const fs::path& jsonFile)
     std::vector<ModDependency> dependencies;
     bool isRuntime = meta.value("is_runtime", false);
 
-    if (meta.contains("logname") && meta["logname"].is_string()) {
-        loggingName = meta["logname"].get<std::string>();
+    if (meta.contains("log_name") && meta["log_name"].is_string()) {
+        loggingName = meta["log_name"].get<std::string>();
     }
 
-    if (meta.contains("friendlyname") && meta["friendlyname"].is_string()) {
-        friendlyName = meta["friendlyname"].get<std::string>();
+    if (meta.contains("friendly_name") && meta["friendly_name"].is_string()) {
+        friendlyName = meta["friendly_name"].get<std::string>();
     }
 
     if (meta.contains("author")) {

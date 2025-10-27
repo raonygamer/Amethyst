@@ -10,7 +10,7 @@ Mod::Mod(const std::shared_ptr<const ModInfo>& info) :
 
 Mod::Mod(Mod&& other) noexcept :
     mInfo(std::move(other.mInfo)),
-    mRuntimeImporter(std::move(other.mRuntimeImporter)),
+    mImporter(std::move(other.mImporter)),
     mHandle(std::move(other.mHandle)),
     mIsLoaded(std::move(other.mIsLoaded))
 {
@@ -20,8 +20,6 @@ Mod::~Mod()
 {
     if (IsLoaded())
         Unload();
-
-    mRuntimeImporter.reset();
 }
 
 std::optional<ModError> Mod::Load()
@@ -75,18 +73,9 @@ std::optional<ModError> Mod::Load()
         return error;
     }
 
-    mRuntimeImporter = RuntimeImporter::GetImporter(mHandle);
-    if (!mRuntimeImporter) {
-        ModError error;
-        error.Step = ModErrorStep::Loading;
-        error.Type = ModErrorType::IOError;
-        error.UUID = mInfo->UUID;
-        error.Message = "Failed to get runtime importer for '{mod}'!";
-        error.Data["{mod}"] = versionedName;
-        return error;
-    }
-
-    mRuntimeImporter->Initialize();
+    mImporter = Importing::PE::PEImporter::Create(mHandle);
+    if (mImporter)
+        mImporter->ResolveAll();
     mIsLoaded = true;
     return std::nullopt;
 }
@@ -96,10 +85,7 @@ void Mod::Unload()
     if (!IsLoaded())
         return;
 
-    if (mRuntimeImporter) {
-        mRuntimeImporter->Shutdown();
-    }
-    mRuntimeImporter.reset();
+    mImporter.reset();
     mHandle.Reset();
     mIsLoaded = false;
 }
@@ -109,9 +95,9 @@ const ModuleHandle& Mod::GetHandle() const
     return mHandle;
 }
 
-Amethyst::RuntimeImporter& Mod::GetRuntimeImporter() const
+Importing::Importer* Mod::GetImporter() const
 {
-    return *mRuntimeImporter;
+	return mImporter.get();
 }
 
 Mod::InitializeFunction Mod::GetInitializeFunction()

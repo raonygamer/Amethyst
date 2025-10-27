@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <mc/src-deps/core/utility/Result.hpp>
+#include <mc/src-deps/core/container/Blob.hpp>
 #include <amethyst/Log.hpp>
 
 class ReadOnlyBinaryStream {
@@ -29,6 +30,7 @@ public:
     Bedrock::Result<uint32_t> getUnsignedVarInt32();
     Bedrock::Result<int32_t> getSignedVarInt32();
     Bedrock::Result<std::string> getString();
+	Bedrock::Result<mce::Blob> getBlob();
 };
 
 class BinaryStream : public ReadOnlyBinaryStream {
@@ -50,4 +52,5 @@ public:
     void writeUnsignedVarInt32(uint32_t value);
     void writeSignedVarInt32(int32_t value);
     void writeString(std::string value);
+	void writeBlob(const mce::Blob& blob);
 };

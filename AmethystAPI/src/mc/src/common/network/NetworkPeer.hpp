@@ -4,7 +4,10 @@ class NetworkPeer {
 public:
     enum class Reliability : int {
         Reliable, 
+
+        // the default use for packets
         ReliableOrdered, 
+
         Unreliable, 
         UnreliableSequenced
     };

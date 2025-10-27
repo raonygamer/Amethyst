@@ -7,6 +7,7 @@ struct ActorUniqueID {
 
     ActorUniqueID() : rawID(-1) {}
     ActorUniqueID(int64_t id) : rawID(id) {}
+	ActorUniqueID(const ActorUniqueID& other) : rawID(other.rawID) {}
 
     bool operator==(const ActorUniqueID& other) const
     {

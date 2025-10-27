@@ -3,7 +3,7 @@
 
 bool mce::TextureContainer::isValid() const {
     bool isValid = mStorage.begin() != mStorage.end();
-    isValid &= mDescription.mTextureFormat != mce::TextureFormat::UNKNOWN_TEXTURE_FORMAT;
+    isValid &= mDescription.mTextureFormat != mce::TextureFormat::UnknownTextureFormat;
 
     for (const cg::ImageBuffer& imageBuffer : mStorage) {
         isValid &= imageBuffer.isValid();

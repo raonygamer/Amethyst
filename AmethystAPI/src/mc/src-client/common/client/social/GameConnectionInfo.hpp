@@ -1,13 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_set>
-
-namespace RakNet {
-    class RakNetGUID {
-        unsigned __int64 unknown0;
-        unsigned __int16 unknown8;
-    };
-}
+#include <mc/src-deps/raknet/RakNetGUID.hpp>
 
 class ThirdPartyInfo {
 public:

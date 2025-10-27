@@ -31,6 +31,13 @@ class LevelChunk;
 class Player;
 class SaveContext;
 class BlockLegacy;
+class BlockActor;
+
+class BlockActorFactory {
+public:
+	/// @signature {48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 49 8B F8 44 8B EA}
+	MC static std::shared_ptr<BlockActor> createBlockEntity(BlockActorType type, const BlockPos& pos, const BlockLegacy& block);
+};
 
 /// @vptr {0x4E6F588}
 class BlockActor {
@@ -193,9 +200,3 @@ public:
 };
 
 static_assert(sizeof(BlockActor) == 200);
-
-class BlockActorFactory {
-public:
-    /// @signature {48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 49 8B F8 44 8B EA}
-    MC static std::shared_ptr<BlockActor> createBlockEntity(BlockActorType type, const BlockPos& pos, const BlockLegacy& block);
-};

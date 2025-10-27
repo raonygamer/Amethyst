@@ -92,7 +92,7 @@ bool ItemStackBase::_isInstance(std::string_view itemName) const
     AssertFail("Too lazy to implement this, if needed write impl here");
 }
 
-const Item* ItemStackBase::getItem() const {
+Item* ItemStackBase::getItem() const {
     return mItem.get();
 }
 
@@ -130,4 +130,23 @@ UseAnim ItemStackBase::getUseAnimation() const
 {
     if (!mItem) return UseAnim::None;
     else return mItem->getUseAnimation();
+}
+
+bool ItemStackBase::isEnchanted() const {
+	if (!mItem || !mUserData)
+		return false;
+	return mUserData->contains(TAG_ENCHANTS, Tag::Type::List);
+}
+
+bool ItemStackBase::canDestroySpecial(const Block& block) const {
+	if (!mItem)
+		return false;
+	return mItem->canDestroySpecial(block);
+}
+
+bool ItemStackBase::canDestroyOptimally(const Block& block) const {
+	if (!block.requiresCorrectToolForDrops()) {
+		return true;
+	}
+	return canDestroySpecial(block);
 }

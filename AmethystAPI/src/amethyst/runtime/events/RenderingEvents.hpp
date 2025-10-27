@@ -3,7 +3,7 @@
 
 class LevelRenderer;
 class ScreenContext;
-class FrameRenderObject;
+struct FrameRenderObject;
 class ScreenView;
 class MinecraftUIRenderContext;
 

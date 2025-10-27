@@ -4,7 +4,6 @@
 #include "amethyst/runtime/ModContext.hpp"
 #include "amethyst/runtime/events/ModEvents.hpp"
 #include "amethyst/runtime/events/InputEvents.hpp"
-#include "amethyst/runtime/interop/RuntimeImporter.hpp"
 #include "debug/AmethystDebugging.hpp"
 #include "loader/RuntimeContext.hpp"
 

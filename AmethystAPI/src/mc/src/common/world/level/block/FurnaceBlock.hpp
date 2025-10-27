@@ -18,12 +18,12 @@ public:
     /** @vidx {i} */ MC virtual bool isCraftingBlock() const;
     /** @vidx {i} */ MC virtual ItemInstance asItemInstance(const Block& block, const BlockActor* actor) const;
     /** @vidx {i} */ MC virtual bool hasComparatorSignal() const;
-    /** @vidx {i} */ MC virtual int getComparatorSignal(BlockSource& blockSource, const BlockPos& pos, const Block& block, unsigned char face) const;
-    /** @vidx {i} */ MC virtual unsigned char getMappedFace(unsigned char face, const Block& block) const;
+    /** @vidx {i} */ MC virtual int getComparatorSignal(BlockSource& blockSource, const BlockPos& pos, const Block& block, Facing::Name face) const;
+    /** @vidx {i} */ MC virtual Facing::Name getMappedFace(Facing::Name face, const Block& block) const;
     /** @vidx {i} */ MC virtual void animateTickBedrockLegacy(BlockSource& blockSource, const BlockPos& pos, Random& rand) const;
     /** @vidx {i} */ MC virtual void onRemove(BlockSource& blockSource, const BlockPos& pos) const;
     /** @vidx {i} */ MC virtual bool isInteractiveBlock() const;
-    /** @vidx {i} */ MC virtual bool use(Player& player, const BlockPos& pos, unsigned char face) const;
+    /** @vidx {i} */ MC virtual bool use(Player& player, const BlockPos& pos, Facing::Name face) const;
 };
 
 static_assert(sizeof(FurnaceBlock) == 992);

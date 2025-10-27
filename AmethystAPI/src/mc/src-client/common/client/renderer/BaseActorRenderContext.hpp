@@ -17,12 +17,12 @@ class BlockActorRenderDispatcher;
 class ActorRenderDispatcher;
 class ItemInHandRenderer;
 struct ActorBlockRenderer;
-struct ParticleSystemEngine;
+class ParticleSystemEngine;
 class MatrixStack;
 
+/** @vptr {48 8D 05 ? ? ? ? 4C 8B C1 48 89 01 8B 42} */
 class BaseActorRenderContext {
 public:
-    /* this + 0   */ uintptr_t** vtable;
     /* this + 8   */ float mNumEntitiesRenderedThisFrame;
     /* this + 12  */ float mLastFrameTime;
     /* this + 16  */ SortedMeshDrawList* mSortedMeshDrawList;
@@ -39,7 +39,7 @@ public:
     /* this + 120 */ Vec3 mCameraTargetPosition;
     /* this + 132 */ Vec3 mCameraPosition;
     /* this + 144 */ AABB mWorldClipRegion;
-    /* this + 168 */ /*const*/ float mFrameAlpha;
+    /* this + 168 */ float mFrameAlpha;
     /* this + 172 */ bool mIsOnScreen;
     /* this + 173 */ bool mUpdateBonesAndEffects;
     /* this + 174 */ bool mUpdateEffects;
@@ -48,8 +48,9 @@ public:
     /* this + 177 */ std::byte mHistoricalFrameTimes[0x1E7];
 
 public:
-    /// @signature {48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 48 89 4C 24 ? 57 48 83 EC ? 49 8B F8 48 8B DA 48 8B F1 48 8D 05 ? ? ? ? 48 89 01 33 ED}
+    /** @sig {E8 ? ? ? ? 90 41 0F B6 D7} */
     MC BaseActorRenderContext(ScreenContext& screenContext, ClientInstance& clientInstance, IMinecraftGame& minecraftGame);
+	/** @vidx {0} */ MC virtual ~BaseActorRenderContext();
 
     MatrixStack& getWorldMatrix();
 };

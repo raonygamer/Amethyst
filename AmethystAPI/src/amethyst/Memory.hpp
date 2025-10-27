@@ -55,9 +55,31 @@ void UnprotectMemory(uintptr_t address, size_t size, DWORD* oldProtection);
 void ProtectMemory(uintptr_t address, size_t size, DWORD protectionData, DWORD* oldProtection = nullptr);
 
 /*
- * Returns the offset (in loaded memory space), to a pointer in a lea instruction
+ * Computes the effective target address for common RIP-relative instructions.
+ *
+ * Supported instruction patterns:
+ *   - lea reg, [rip + disp32]
+ *   - call rel32
+ *   - jmp rel32
+ *   - call [rip + disp32]
+ *   - jmp [rip + disp32]
+ *
+ * For direct relative instructions (call/jmp rel32), the displacement is
+ * sign-extended and added to the address *after* the instruction.
+ *
+ * For memory-indirect forms (call/jmp [rip + disp32]), the target address
+ * is resolved by reading the pointer located at (rip + disp32 + sizeof(instr)).
+ *
+ * If the instruction does not match one of these cases, the input address
+ * is returned unchanged.
+ *
+ * Parameters:
+ *   address - Address of the instruction to decode.
+ *
+ * Returns:
+ *   The resolved absolute target address if RIP-relative; otherwise, the input address.
  */
-uintptr_t AddressFromLeaInstruction(uintptr_t leaInstructionAddress);
+uintptr_t GetEffectiveAddress(uintptr_t address);
 
 uintptr_t GetVtable(void* obj);
 

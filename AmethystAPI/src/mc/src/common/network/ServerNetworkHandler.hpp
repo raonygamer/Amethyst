@@ -30,7 +30,7 @@ public:
 
 class ServerNetworkHandler : public Bedrock::Threading::EnableQueueForMainThread, public NetEventCallback, public LevelListener, public Social::MultiplayerServiceObserver, public Social::XboxLiveUserObserver {
 public:
-    /*  */ std::byte padding32[56];
+    /*  */ std::byte padding32[24];
     /* this + 88 */ Bedrock::NonOwnerPointer<ILevel> mLevel;
 
 public:
@@ -43,4 +43,4 @@ public:
     MC bool allowIncomingPacketId(const NetworkIdentifier& networkId, MinecraftPacketIds packet);
 };
  
-//static_assert(offsetof(ServerNetworkHandler, mLevel) == 88);
+static_assert(offsetof(ServerNetworkHandler, mLevel) == 88);

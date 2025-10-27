@@ -57,16 +57,16 @@ public:
     MC virtual ~GameMode();
 
     /// @vidx {1}
-    MC virtual bool startDestroyBlock(const BlockPos& unk0, unsigned char unk1, bool& unk2);
+    MC virtual bool startDestroyBlock(const BlockPos& pos, FacingID face, bool& hasDestroyedBlock);
 
     /// @vidx {2}
-    MC virtual bool destroyBlock(const BlockPos& unk0, unsigned char unk1);
+    MC virtual bool destroyBlock(const BlockPos& pos, FacingID face);
 
     /// @vidx {3}
-    MC virtual bool continueDestroyBlock(const BlockPos& unk0, unsigned char unk1, const Vec3& unk2, bool& unk3);
+    MC virtual bool continueDestroyBlock(const BlockPos& pos, FacingID face, const Vec3& playerPos, bool& hasDestroyedBlock);
 
     /// @vidx {4}
-    MC virtual void stopDestroyBlock(const BlockPos& unk0);
+    MC virtual void stopDestroyBlock(const BlockPos& pos);
 
     /// @vidx {5}
     MC virtual void startBuildBlock(const BlockPos& unk0, FacingID unk1);

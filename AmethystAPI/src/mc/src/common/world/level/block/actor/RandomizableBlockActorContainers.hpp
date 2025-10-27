@@ -14,7 +14,7 @@ public:
 
 public:
     /// @vidx {inherit}
-    MC virtual virtual ~RandomizableBlockActorContainerBase() override;
+    MC virtual ~RandomizableBlockActorContainerBase() override;
 
     /// @vidx {inherit}
     MC virtual void load(Level& a2, const CompoundTag& tag, DataLoadHelper& a4) override;

@@ -11,11 +11,14 @@ namespace cg {
 
         ImageBuffer() : mStorage(), mImageDescription() {}
 
-        ImageBuffer(mce::Blob&& blob, cg::ImageDescription&& imageDescription)
-            : mStorage(std::move(blob)), mImageDescription(std::move(imageDescription)) {}
+		ImageBuffer(mce::Blob&& blob, cg::ImageDescription&& imageDescription)
+			: mStorage(std::move(blob)), mImageDescription(std::move(imageDescription)) {}
 
-        ImageBuffer(const ImageBuffer& other)
-            : mStorage(other.mStorage), mImageDescription(other.mImageDescription) {}
+		ImageBuffer(const mce::Blob& blob, const cg::ImageDescription& imageDescription)
+			: mStorage(blob), mImageDescription(imageDescription) {}
+
+		ImageBuffer(const ImageBuffer& other)
+			: mStorage(other.mStorage), mImageDescription(other.mImageDescription) {}
 
         __declspec(noinline) bool isValid() const {
             size_t blobSize = mStorage.size();

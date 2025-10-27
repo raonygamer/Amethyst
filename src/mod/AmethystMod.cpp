@@ -1,5 +1,4 @@
 #include "mod/AmethystMod.hpp"
-
 #include "amethyst/runtime/ModContext.hpp"
 #include "amethyst/runtime/events/ModEvents.hpp"
 #include "amethyst/runtime/events/InputEvents.hpp"

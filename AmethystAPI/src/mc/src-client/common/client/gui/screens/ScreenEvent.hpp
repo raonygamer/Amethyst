@@ -8,6 +8,7 @@ class UIPropertyBag;
 enum class ScreenEventType : int32_t {
     Undefined = 0,
     ButtonEvent = 1,
+    TextEditChange = 12,
     ToggleChangeEvent = 13,
     SliderChangeEvent = 16,
 
@@ -24,7 +25,6 @@ enum class ScreenEventType : int32_t {
     //ScreenViewRefresh = 0x000c,
     //ScrollDirectionEvent = 0x000d,
     //ScrollRequestEvent = 0x000e,
-    //TextEditChange = 0x000f,
     //ToggleChangeEvent = 0x0010,
     //ControllerDirectionEvent = 0x0011,
     //RawInputEvent = 0x0012,
@@ -71,13 +71,29 @@ public:
     UIPropertyBag* properties;
 };
 
+enum class TextCharEventResult : int32_t {
+	None = 0x0000,
+	EnterPressed = 0x0001,
+	BackspacePressed = 0x0002,
+	Succcess = 0x0003,
+	Failed = 0x0004,
+};
+
+struct TextEditScreenEventData {
+	int id;
+	int index;
+	bool finished;
+	UIPropertyBag* properties;
+	TextCharEventResult result;
+	bool hasSelectedTextBox;
+};
+
 union ScreenEventData {
     ButtonScreenEventData button;
     ToggleChangeEventData toggle;
     SliderChangeEventData slider;
+    TextEditScreenEventData textEdit;
 
-
-    //TextEditScreenEventData textEdit;
     //HoverScreenEventData hover;
     //PointerMoveScreenEventData pointerMove;
     //PointerHeldScreenEventData pointerHeld;
@@ -98,8 +114,8 @@ union ScreenEventData {
 };
 
 enum class ScreenEventScope : char {
-  Controller = 0x0000,
-  View = 0x0001,
+    Controller = 0x0000,
+    View = 0x0001,
 };
 
 class ScreenEvent {

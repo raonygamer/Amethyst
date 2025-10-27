@@ -1,8 +1,7 @@
 #pragma once
 #include <mc/src-client/common/client/gui/controls/RenderableComponent.hpp>
 #include <mc/src-client/common/client/gui/controls/renderers/UICustomRenderer.hpp>
-
-
+#include <mc/src-deps/core/utility/StringUtils.hpp>
 
 class CustomRenderComponent : public RenderableComponent {
 private:
@@ -21,8 +20,8 @@ public:
 
     void reset() override {}
 
-    virtual void onVisibilityChanged(bool) override {};                                       // todo check impl
-    virtual const std::string& getTextToSpeechComponentValue() const override { return ""; }; // todo check impl
+    virtual void onVisibilityChanged(bool) override {};                                       
+    virtual const std::string& getTextToSpeechComponentValue() const override { return Util::EmptyString; };
 
     virtual UIBatchType getBatchType() const;
     virtual int32_t getCustomId() const;

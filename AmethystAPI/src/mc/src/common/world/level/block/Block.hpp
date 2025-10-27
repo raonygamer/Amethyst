@@ -103,24 +103,17 @@ public:
     // Needed because `BlockLegacy::getMapColor` is a protected function and the Block class
     // is its friend, how adorable..
     mce::Color getMapColor(BlockSource& region, const BlockPos& pos) const;
-
     bool canBeBuiltOver(BlockSource& region, const BlockPos&) const;
-
     BlockRuntimeId getRuntimeId() const {
         return mNetworkId;
     }
-
     bool isFenceBlock() const;
-                                                             
     bool getCollisionShape(AABB& outAABB, const IConstBlockSource& region, const BlockPos& pos, optional_ref<const GetCollisionShapeInterface> entity) const;
-
     const Material& getMaterial() const;
-
     bool use(Player& player, const BlockPos& at, FacingID face, std::optional<Vec3> hit) const;
-
     bool isInteractiveBlock() const;
-
     bool hasProperty(BlockProperty property) const;
+	bool requiresCorrectToolForDrops() const;
 };
 
 static_assert(sizeof(Block) == 208);

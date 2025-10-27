@@ -54,3 +54,5 @@ public:
 MC I18n& getI18n();
 
 std::string operator"" _i18n(const char* str, size_t);
+
+std::string i18n(const std::string& key);

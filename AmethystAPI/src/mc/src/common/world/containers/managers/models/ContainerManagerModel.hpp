@@ -40,7 +40,7 @@ public:
     /// @vidx {7}
     MC virtual void setSlot(int slot, const ItemStack& stack, bool) = 0;
     /// @vidx {8}
-    MC virtual const ItemStack& getSlot(int slot) = 0;
+    MC virtual const ItemStack& getSlot(int slot) const = 0;
     /// @vidx {9}
     MC virtual void setData(int, int) = 0;
     /// @vidx {10}

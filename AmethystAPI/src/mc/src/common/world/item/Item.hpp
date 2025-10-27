@@ -90,9 +90,43 @@ class ItemTag : public HashedString {
 /*
  * Represents a type of item in the game, including its properties, behaviors, and interactions.
  */
-/** @vptr {0x4DFCE10} */
+/** @vptr {48 8D 05 ? ? ? ? 48 89 01 48 83 C1 ? 0F 57 C0 0F 11 01 4C 89 61 ? 4C 89 61 ? 45 8D 44 24} */
 class Item {
 public:
+	class Tier {
+	public:
+		const int32_t mLevel;
+		const int32_t mUses;
+		const float mSpeed;
+		const int32_t mDamage;
+		const int32_t mEnchantmentValue;
+
+		Tier(int32_t level, int32_t uses, float speed, int32_t damage, int32_t enchantmentValue) :
+			mLevel(level),
+			mUses(uses),
+			mSpeed(speed),
+			mDamage(damage),
+			mEnchantmentValue(enchantmentValue) 
+		{
+		}
+
+		bool equals(const Tier& other) const {
+			return mLevel == other.mLevel &&
+				   mUses == other.mUses &&
+				   mSpeed == other.mSpeed &&
+				   mDamage == other.mDamage &&
+				   mEnchantmentValue == other.mEnchantmentValue;
+		}
+
+		bool operator==(const Tier& other) const {
+			return equals(other);
+		}
+
+		bool operator!=(const Tier& other) const {
+			return !equals(other);
+		}
+	};
+
 	class ScopedCreativeGroup {
     public:
         /** @sig {48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 49 8B F0 48 8B EA 48 8B D9 48 8D 4C 24} */
@@ -149,8 +183,11 @@ public:
     std::vector<std::function<void()>> mOnResetBAIcallbacks;
     std::vector<ItemTag> mTags;
 
-	/** @sig {48 89 5C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 55 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 41 0F B7 D8} */
+	/** @sig {E8 ? ? ? ? 88 9F ? ? ? ? 48 8D 05} */
     MC Item(const std::string& identifier, short numId);
+
+	/** @sig {E8 ? ? ? ? 88 9F ? ? ? ? 48 8D 05} */
+	MC static void $constructor(Item* self, const std::string& identifier, short numId);
 
     /** @vidx {000} */ MC virtual ~Item();
 	/** @vidx {001} */ MC virtual bool initServer(const Json::Value& config, const SemVersion& version, bool unk2, const Experiments& experiments);
@@ -200,7 +237,7 @@ public:
 	/** @vidx {045} */ MC virtual bool isLiquidClipItem() const;
 	/** @vidx {046} */ MC virtual bool shouldInteractionWithBlockBypassLiquid(const Block& block) const;
 	/** @vidx {047} */ MC virtual bool requiresInteract() const;
-	/** @vidx {048} */ MC virtual void appendFormattedHovertext(const ItemStackBase& stack, Level& level, std::string& outText, bool unk3) const;
+	/** @vidx {048} */ MC virtual void appendFormattedHovertext(const ItemStackBase& stack, Level& level, std::string& outText, bool showCategory) const;
 	/** @vidx {049} */ MC virtual bool isValidRepairItem(const ItemStackBase& targetStack, const ItemStackBase& repairStack, const BaseGameVersion& version) const;
 	/** @vidx {050} */ MC virtual int getEnchantSlot() const;
 	/** @vidx {051} */ MC virtual int getEnchantValue() const;
@@ -230,10 +267,10 @@ public:
 	/** @vidx {075} */ MC virtual ItemUseMethod useTimeDepleted(ItemStack& stack, Level* level, Player* player) const;
 	/** @vidx {076} */ MC virtual void releaseUsing(ItemStack& stack, Player* player, int duration) const;
 	/** @vidx {077} */ MC virtual float getDestroySpeed(const ItemStackBase& stack, const Block& block) const;
-	/** @vidx {078} */ MC virtual void hurtActor(ItemStack& stack, Actor& actor, Mob& mob) const;
-	/** @vidx {079} */ MC virtual void hitActor(ItemStack& stack, Actor& actor, Mob& mob) const;
+	/** @vidx {078} */ MC virtual void hurtActor(ItemStack& stack, Actor& actor, Mob& attacker) const;
+	/** @vidx {079} */ MC virtual void hitActor(ItemStack& stack, Actor& actor, Mob& attacker) const;
 	/** @vidx {080} */ MC virtual void hitBlock(ItemStack& stack, const Block& block, const BlockPos& pos, Mob& mob) const;
-	/** @vidx {081} */ MC virtual bool mineBlock(ItemStack& stack, const Block& block, int unk2, int unk3, int unk4, Actor* actor) const;
+	/** @vidx {081} */ MC virtual bool mineBlock(ItemStack& stack, const Block& block, int x, int y, int z, Actor* owner) const;
 	/** @vidx {082} */ MC virtual std::string buildDescriptionName(const ItemStackBase& stack) const;
 	/** @vidx {083} */ MC virtual std::string buildDescriptionId(const ItemDescriptor& descriptor, const CompoundTag* tag) const;
 	/** @vidx {084} */ MC virtual std::string buildEffectDescriptionName(const ItemStackBase& stack) const;

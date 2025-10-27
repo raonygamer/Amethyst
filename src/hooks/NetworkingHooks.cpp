@@ -27,8 +27,14 @@ class PacketHandlerDispatcherInstance<Amethyst::CustomPacketInternal, false> : p
 public:
     virtual void handle(const NetworkIdentifier& networkId, NetEventCallback& netEvent, std::shared_ptr<Packet>& _packet) const override {
         std::shared_ptr<Amethyst::CustomPacketInternal>& packet = (std::shared_ptr<Amethyst::CustomPacketInternal>&)_packet;
-        Amethyst::CustomPacketHandler& handler = Amethyst::GetNetworkManager().GetPacketHandler(packet->mTypeId);
-        handler.handle(networkId, netEvent, *packet->mPacket.get());
+        Amethyst::CustomPacketHandler* handler = Amethyst::GetNetworkManager().GetPacketHandler(packet->mTypeId);
+
+		if (handler == nullptr) {
+			Log::Warning("[PacketHandlerDispatcherInstance] No handler found for CustomPacketInternal with typeId {}, ignoring packet", packet->mTypeId);
+			return;
+		}
+
+        handler->handle(networkId, netEvent, *packet->mPacket.get());
     }
 };
 

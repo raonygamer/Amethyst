@@ -33,17 +33,22 @@ void ModLoader::LoadGraph(const ModGraph& graph)
             Log::Info("Loaded mod: '{}'", modInfo->GetVersionedName());
         }
     }
+
+    for (const auto& mod : mMods) {
+        auto error = mod->CallInitialize(*mContext);
+        if (error.has_value()) {
+            mErrors.push_back(*error);
+        }
+        else {
+            Log::Info("Initialized mod: '{}'", mod->mInfo->GetVersionedName());
+        }
+	}
 }
 
 std::weak_ptr<const Mod> ModLoader::LoadSingle(const std::shared_ptr<const ModInfo>& info)
 {
     auto mod = std::make_shared<Mod>(info);
     auto error = mod->Load();
-    if (error.has_value()) {
-        mErrors.push_back(*error);
-        return {};
-    }
-    error = mod->CallInitialize(*mContext);
     if (error.has_value()) {
         mErrors.push_back(*error);
         return {};

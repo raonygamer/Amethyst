@@ -75,5 +75,5 @@ void Amethyst::NinesliceHelper::Draw(RectangleArea& rect, const mce::TexturePtr*
         {right},
         {middle}};
 
-    ctx->drawNineslice(texture, &nineSlice);
+    ctx->drawNineslice(*texture, nineSlice);
 }

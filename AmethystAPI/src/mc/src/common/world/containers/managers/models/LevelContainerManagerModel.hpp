@@ -38,7 +38,7 @@ public:
     /// @vidx {inherit}
     MC virtual void setSlot(int slot, const ItemStack& stack, bool) override;
     /// @vidx {inherit}
-    MC virtual const ItemStack& getSlot(int slot) override;
+    MC virtual const ItemStack& getSlot(int slot) const override;
     /// @vidx {inherit}
     MC virtual void setData(int, int) override;
     /// @vidx {inherit}

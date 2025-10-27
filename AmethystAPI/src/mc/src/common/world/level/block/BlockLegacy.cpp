@@ -1,4 +1,5 @@
 #include "mc/src/common/world/level/block/BlockLegacy.hpp"
+#include "mc/src/common/world/level/block/traits/block_trait/ITrait.hpp"
 
 // 1.20.71.1 - Re-Implemented
 short BlockLegacy::getBlockItemId()
@@ -18,6 +19,10 @@ void BlockLegacy::addState(const BlockState& blockState)
     using function = decltype(&BlockLegacy::addState);
     static auto func = std::bit_cast<function>(SigScan("4C 8B 42 ? E9")); // why is this signature so small lol
     (this->*func)(blockState);
+}
+
+void BlockLegacy::addTrait(const BlockTrait::ITrait& trait) {
+	trait.applyToBlockLegacy(*this);
 }
 
 bool BlockLegacy::isAir() const

@@ -76,8 +76,8 @@ public:
     /* this + 40  */ float mTextAlpha;
     /* this + 48  */ UIRepository& mUIRepository;
     std::byte padding56[32];
-    /* this + 88  */ Bedrock::NonOwnerPointer<mce::TextureGroup> mTextures;
-    /* this + 104  */ std::byte padding80[184 - 104];
+    /* this + 88  */ mce::TextureGroup** mTextures;
+    /* this + 96  */ std::byte padding96[184 - 96];
     ///* this + 184 */ const gsl::not_null<Bedrock::NonOwnerPointer<const FontHandle>>& mDebugTextFontHandle;
     /* this + 184 */ FontHandle mDebugTextFontHandle;
     /* this + 248 */ const UIScene* mCurrentScene; // offset broken fron font handle above. todo fix.
@@ -91,11 +91,11 @@ public:
     virtual float getLineLength(Font& font, const std::string& text, float fontSize, bool showColorSymbol);
     virtual float getTextAlpha();
     virtual void setTextAlpha(float alpha);
-    virtual void drawDebugText(const RectangleArea* rect, const std::string* text, const mce::Color* color, float alpha, ui::TextAlignment alignment, const TextMeasureData* textData, const CaretMeasureData* caretData);
+    virtual void drawDebugText(const RectangleArea& rect, const std::string& text, const mce::Color& color, float alpha, ui::TextAlignment alignment, const TextMeasureData& textData, const CaretMeasureData& caretData);
     virtual void drawText(Font& font, const RectangleArea& rect, const std::string& text, const mce::Color& color, float alpha, ui::TextAlignment alignment, const TextMeasureData& textData, const CaretMeasureData& caretData);
     virtual void flushText(float deltaTime);
-    virtual void drawImage(const mce::TexturePtr& texture, const glm::tvec2<float>* position, const glm::tvec2<float>* size, glm::tvec2<float>* uv, glm::tvec2<float>* uvSize, int degree);
-    virtual void drawNineslice(const mce::TexturePtr* texture, const NinesliceInfo* nineslice);
+    virtual void drawImage(const mce::TexturePtr& texture, const glm::tvec2<float>& position, const glm::tvec2<float>& size, glm::tvec2<float>& uv, glm::tvec2<float>& uvSize, int degree);
+    virtual void drawNineslice(const mce::TexturePtr& texture, const NinesliceInfo& nineslice);
     virtual void flushImages(const mce::Color& color, float alpha, const HashedString& materialNameHash);
     virtual void beginSharedMeshBatch(ComponentRenderBatch& renderBatch);
     virtual void endSharedMeshBatch(ComponentRenderBatch& renderBatch);

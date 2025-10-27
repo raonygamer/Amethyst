@@ -13,7 +13,8 @@
 #include <amethyst/Utility.hpp>
 #include <amethyst/runtime/mod/ModInfo.hpp>
 #include <amethyst/runtime/mod/ModuleHandle.hpp>
-#include <amethyst/runtime/interop/RuntimeImporter.hpp>
+#include <amethyst/runtime/importing/Importer.hpp>
+#include <amethyst/runtime/importing/pe32+/PEImporter.hpp>
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -30,7 +31,7 @@ class Mod {
     using InitializeFunction = void(*)(AmethystContext&, const Mod&);
 
     ModuleHandle mHandle;
-    std::shared_ptr<Amethyst::RuntimeImporter> mRuntimeImporter;
+    std::unique_ptr<Importing::Importer> mImporter;
     bool mIsLoaded = false;
     bool mIsInitialized = false;
 
@@ -52,7 +53,7 @@ public:
     void Unload();
 
     const ModuleHandle& GetHandle() const;
-    Amethyst::RuntimeImporter& GetRuntimeImporter() const;
+    Importing::Importer* GetImporter() const;
 
     template <typename T = FARPROC>
     T GetFunction(const char* functionName) const

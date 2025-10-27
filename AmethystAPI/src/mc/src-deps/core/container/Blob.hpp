@@ -1,49 +1,69 @@
 #pragma once
+
 #include <cstddef>
 #include <cstdint>
 #include <memory>
+#include <algorithm>
 
 namespace mce {
+
     class Blob {
     public:
-        typedef std::size_t size_type;
-        typedef uint8_t value_type;
-        typedef mce::Blob::value_type* iterator;
-        typedef void (*delete_function)(value_type*);
+        using size_type = std::size_t;
+        using value_type = uint8_t;
+        using iterator = value_type*;
+        using delete_function = void (*)(value_type*);
 
         struct Deleter {
-            mce::Blob::delete_function m_func;
+            delete_function m_func;
 
             Deleter() : m_func(nullptr) {}
-            Deleter(delete_function func) : m_func(func) {}
+            explicit Deleter(delete_function func) : m_func(func) {}
 
-            void operator()(value_type* ptr) const {
+            void operator()(value_type* ptr) const noexcept {
                 if (m_func) {
                     m_func(ptr);
-                }
-                else {
+                } else {
                     delete[] ptr;
                 }
             }
 
-            delete_function getDeleteFunc() const {
+            delete_function getDeleteFunc() const noexcept {
                 return m_func;
             }
         };
 
-        typedef std::unique_ptr<unsigned char[], Deleter> pointer_type;
+        using pointer_type = std::unique_ptr<value_type[], Deleter>;
 
     private:
         pointer_type mBlob;
         size_type mSize;
 
     public:
+        // Constructors
         Blob();
-        Blob(const iterator data, const size_type size);
+        Blob(const iterator data, size_type size);
         Blob(const Blob& other);
+        Blob(Blob&& other) noexcept;
+		Blob(size_type size);
 
-        size_type size() const;
+        // Assignment operators
+        Blob& operator=(const Blob& other);
+        Blob& operator=(Blob&& other) noexcept;
 
+        // Accessors
+        size_type size() const noexcept;
+        iterator data() noexcept;
+        const iterator data() const noexcept;
+        bool empty() const noexcept;
+
+        // Utility
+        void swap(Blob& other) noexcept;
+        void resize(size_type newSize);
+        bool operator==(const Blob& other) const noexcept;
+
+        // Default deleter function
         static void defaultDeleter(iterator data);
     };
-}
+
+} // namespace mce

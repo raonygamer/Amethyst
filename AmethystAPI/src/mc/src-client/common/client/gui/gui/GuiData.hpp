@@ -1,4 +1,7 @@
+/// @symbols
 #pragma once
+#include <amethyst/Imports.hpp>
+
 #include "mc/src/common/world/phys/Vec2.hpp"
 #include <cstddef>
 #include <optional>
@@ -33,6 +36,9 @@ public:
     /* this + 110  */ std::byte padding108[136 - 110];
     /* this + 136  */ IClientInstance& mClient;
     /* this + 144  */ std::byte padding144[2384];
+
+	/** @sig {E8 ? ? ? ? 90 48 85 DB 74 ? 48 8B CB E8 ? ? ? ? 90 E9 ? ? ? ? 0F 57 C0 0F 11 45 ? 66 0F 6F 0D} */
+	MC void displayLocalizedMessage(const std::string& message);
 
     void _displayWhisperMessage(const std::string& a1, const std::string& a2, const std::string& a3, const std::string& a4);
     void displayLocalizableMessage(const std::string& a1, const std::vector<std::string>& a3);

@@ -6,6 +6,7 @@
 #include <mc/src/common/world/inventory/transaction/InventoryTransactionManager.hpp>
 #include <mc/src/common/world/actor/player/SerializedSkin.hpp>
 #include <mc/src/common/world/actor/player/PlayerInventory.hpp>
+#include <mc/src/common/world/actor/player/SkinAdjustments.hpp>
 
 class ChunkSource;
 class ItemStackNetManagerBase;
@@ -17,11 +18,20 @@ class IContainerManager;
 class GameMode;
 class ServerPlayer;
 class LocalPlayer;
+class UserEntityIdentifierComponent;
+
+class PlayerListener;
 
 #pragma pack(push, 8)
 /// @vptr {0x4DBEEB8}
 class Player : public Mob {
 public:
+	struct PlayerSpawnPoint {
+		BlockPos mSpawnBlockPos;
+		BlockPos mPlayerPosition;
+		DimensionType mDimension;
+	};
+
     /* this + 1512 */ std::byte padding1512[360];
     /* this + 1872 */ std::shared_ptr<IContainerManager> mContainerManager;
     /* this + 1888 */ PlayerInventory* playerInventory;
@@ -35,7 +45,48 @@ public:
     /* this + 3784 */ std::unique_ptr<GameMode> mGameMode;
     /* this + 3792 */ std::byte padding3792[2680];
     /* this + 6472 */ std::unique_ptr<ItemStackNetManagerBase> mItemStackNetManager;
-    /* this + 6480 */ std::byte padding6480[1112];
+    std::shared_ptr<AnimationComponent> mUIAnimationComponent;
+	std::shared_ptr<AnimationComponent> mMapAnimationComponent;
+	Player::PlayerSpawnPoint mPlayerRespawnPoint;
+	SubClientId mClientId;
+	float mServerBuildRatio;
+	bool mUseMapAnimationComponent;
+	bool mIsDeferredRenderingFirstPersonObjects;
+	std::shared_ptr<AnimationComponent> mFirstPersonAnimationComponent;
+	std::vector<PlayerListener*> mListeners;
+	int mLastLevelUpTime;
+	bool mPlayerLevelChanged;
+	int mPreviousLevelRequirement;
+	Vec3 mRespawnPositionCandidate;
+	Vec3 mEnterBedPosition;
+	Vec3 mPreDimensionTransferSpawnPosition;
+	bool mDestroyingBlock;
+	std::vector<uint32_t> mOnScreenAnimationTextures;
+	int mOnScreenAnimationTicks;
+	int mEnchantmentSeed;
+	uint32_t mChunkRadius;
+	int mMapIndex;
+	uint64_t mElytraLoop;
+	float mElytraVolume;
+	std::unordered_map<HashedString,int> mCooldowns;
+	std::unordered_map<HashedString,HashedString> mVanillaCooldowns;
+	int64_t mStartedBlockingTimeStamp;
+	int64_t mBlockedUsingShieldTimeStamp;
+	int64_t mBlockedUsingDamagedShieldTimeStamp;
+	bool mPrevBlockedUsingShield;
+	bool mPrevBlockedUsingDamagedShield;
+	bool mUsedPotion;
+	SkinAdjustments mSkinAdjustments;
+	SerializedSkin mSerializedSkin;
+	std::string mName;
+	std::string mLastEmotePlayed;
+	int64_t mEmoteEasterEggEndTime;
+	uint32_t mEmoteMessageCount;
+	std::string mDeviceId;
+	bool mFlagClientForBAIReset;
+	bool mSendInventoryOptionsToClient;
+	bool mIsHostingPlayer;
+	bool mOverrideShouldCrit;
 
     // 101% accurate parameters lmao
     /// @signature {48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 44 89 4C 24 ? 4C 89 44 24}
@@ -73,6 +124,12 @@ public:
     const LocalPlayer* getLocalPlayer() const;
     ServerPlayer* getServerPlayer();
     LocalPlayer* getLocalPlayer();
+
+    SerializedSkin& getSkin();
+    const SerializedSkin& getSkin() const;
+
+	const UserEntityIdentifierComponent* getUserIdentity() const;
+	UserEntityIdentifierComponent* getUserIdentity();
 };
 #pragma pack(pop)   
 

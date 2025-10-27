@@ -21,6 +21,9 @@ public:
     MC static void $constructor(HudScreenController* self, std::shared_ptr<ClientInstanceScreenModel> model);
 
     /** @vidx {i} */ MC virtual bool bind(const std::string& collectionName, uint32_t collectionNameHash, int collectionIndex, const std::string& bindingName, uint32_t bindingNameHash, const std::string& bindingNameOverride, UIPropertyBag& bag);
+
+	/** @sig {E8 ? ? ? ? 48 81 C7 ? ? ? ? 48 3B FE 75 ? 48 8B 8B ? ? ? ? E8} */
+	MC void _pushNewChatMessage(const std::string& message, float time);
 };
 
 static_assert(offsetof(HudScreenController, mHudScreenManagerController) == 3312);

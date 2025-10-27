@@ -62,3 +62,27 @@ void BinaryStream::writeString(std::string value) {
     writeUnsignedVarInt32((uint32_t)value.size());
     mBuffer += value;
 }
+
+void BinaryStream::writeBlob(const mce::Blob& blob)
+{
+    writeUnsignedVarInt32(static_cast<uint32_t>(blob.size()));
+    if (blob.size() > 0) {
+        const unsigned char* data = blob.data();
+        mBuffer.append(reinterpret_cast<const char*>(data), blob.size());
+    }
+}
+
+Bedrock::Result<mce::Blob> ReadOnlyBinaryStream::getBlob()
+{
+    auto lenResult = getUnsignedVarInt32();
+    Assert(lenResult.has_value(), "Failed to read blob length");
+    uint32_t length = lenResult.value();
+
+    mce::Blob blob(length);
+	if (length > 0) {
+		auto result = read(blob.data(), length);
+		Assert(result.has_value(), "Failed to read blob data");
+	}
+
+    return Bedrock::Result<mce::Blob>(std::move(blob));
+}

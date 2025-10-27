@@ -1,8 +1,12 @@
+/// @symbols
 #pragma once
+#include <amethyst/Imports.hpp>
 #include <mc/src-deps/core/string/StringHash.hpp>
+#include <mc/src/common/world/Direction.hpp>
 
 class CompoundTag;
 
+/** @vptr {0x4E62FF8} */
 class BlockState {
 public:
     struct StateListNode {
@@ -17,9 +21,9 @@ public:
     const HashedString mName;
     BlockState::StateListNode mNode;
 
-    virtual ~BlockState() = default;
-    virtual void toNBT(CompoundTag&, int) const = 0;
-    virtual bool fromNBT(const CompoundTag&, int&) const = 0;
+    /** @vidx {0} */ MC virtual ~BlockState();
+    /** @vidx {1} */ MC virtual void toNBT(CompoundTag&, int) const;
+    /** @vidx {2} */ MC virtual bool fromNBT(const CompoundTag&, int&) const;
 };
 
 struct BlockStateInstance {
@@ -29,4 +33,36 @@ struct BlockStateInstance {
     uint32_t mMask;
     bool mInitialized;
     const BlockState* mState;
+};
+
+template<typename T>
+class BlockStateVariant :
+	public BlockState
+{
+public:
+};
+
+template<typename T>
+class BuiltInBlockStateVariant :
+	public BlockStateVariant<T>
+{
+public:
+	static_assert(sizeof(T), "Instantiation of BuiltInBlockStateVariant with T not allowed!");
+};
+
+template<>
+/** @vptr {0x4E62F20} */
+class BuiltInBlockStateVariant<Direction::Type> :
+	public BlockStateVariant<Direction::Type>
+{
+public:
+	/** @vidx {0} */ MC virtual ~BuiltInBlockStateVariant() override;
+	/** @vidx {1} */ MC virtual void toNBT(CompoundTag&, int) const override;
+	/** @vidx {2} */ MC virtual bool fromNBT(const CompoundTag&, int&) const override;
+};
+
+class BuiltInBlockStates {
+public:
+	/** @addr {0x59DF450} */
+	MC static BlockState CardinalDirection;
 };

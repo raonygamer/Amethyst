@@ -21,14 +21,13 @@ public:
     /* this + 352  */ std::shared_ptr<FontRepository> mFontRepository; 
     /* this + 368  */ std::byte padding368[1920 - 1560];
     /* this + 728  */ ResourcePackManager* mResourcePackManager;
-    /* this + 736  */ std::byte padding736[1184];
-    /* this + 1920 */ std::shared_ptr<mce::TextureGroup> mTextures;
-    /* this + 1936 */ std::byte padding1936[3328 - 2992];
+    /* this + 736  */ std::byte padding736[2088 - 736];
+    /* this + 2088 */ std::shared_ptr<mce::TextureGroup> mTextures;
+    /* this + 2104 */ std::byte padding1936[2272 - 2104];
     /* this + 2272 */ std::unique_ptr<ResourcePackRepository> mResourcePackRepository;
     /* this + 2280 */ std::byte padding2296[3328 - 2280];
     /* this + 3328 */ std::unique_ptr<MinecraftInputHandler> mInput;
-    /* this + 3336 */ std::byte padding3336[3912 - 3336 - 312];
-    /* this + 3608 */ std::byte padding3608[3768 - 3600];
+    /* this + 3608 */ std::byte padding3608[3768 - 3336];
     /* this + 3768 */ World::System* mWorldSystem;
     /* this + 3776 */ std::byte padding3744[3912 - 3776];
     /* this + 3912 */ FontHandle mFontHandle;
@@ -45,5 +44,5 @@ public:
 };
 
 // 1.21.0.3
-static_assert(offsetof(MinecraftGame, mTextures) == 1920);
+static_assert(offsetof(MinecraftGame, mTextures) == 2088);
 static_assert(offsetof(MinecraftGame, mFontHandle) == 3912);

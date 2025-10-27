@@ -19,6 +19,7 @@ struct MeasureResult {
 
 class UIMeasureStrategy {
 public:
+	virtual ~UIMeasureStrategy();
     virtual MeasureResult measureText(const gsl::not_null<Bedrock::NonOwnerPointer<const FontHandle>>& font, const std::string& text, int32_t maxWidth, int32_t maxHeight, const TextMeasureData& textData, const CaretMeasureData& caretData) const;
     virtual MeasureResult measureTextHeight(const gsl::not_null<Bedrock::NonOwnerPointer<const FontHandle>>&, const std::string&, int32_t, const TextMeasureData&, const CaretMeasureData&) const;
     virtual MeasureResult measureTextWidth(const gsl::not_null<Bedrock::NonOwnerPointer<const FontHandle>>&, const std::string&, const TextMeasureData&, const CaretMeasureData&) const;

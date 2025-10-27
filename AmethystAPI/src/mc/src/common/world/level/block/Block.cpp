@@ -38,10 +38,10 @@ gsl::strict_not_null<const Block*> Block::setState(const BlockState& stateType, 
             Log::Info("more than found variation count");
         }
 
-        Assert(false, "Not handling this ong!");
+        AssertFail("Not handling this ong!");
     }
 
-    Assert(false, "Unhandled case in Block::setState");
+	AssertFail("Unhandled case in Block::setState");
 }
 
 template gsl::strict_not_null<const Block*> Block::setState<int>(const BlockState& stateType, int value) const;
@@ -89,4 +89,10 @@ bool Block::isInteractiveBlock() const
 bool Block::hasProperty(BlockProperty property) const
 {
     return mLegacyBlock->hasProperty(property);
+}
+
+bool Block::requiresCorrectToolForDrops() const {
+    if (!mLegacyBlock)
+		AssertFail("mLegacyBlock is null");
+	return !mLegacyBlock->mMaterial.mAlwaysDestroyable && !mLegacyBlock->mCanDropWithAnyTool;
 }

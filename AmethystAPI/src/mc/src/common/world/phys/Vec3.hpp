@@ -23,6 +23,8 @@ public:
     Vec3 operator/(const Vec3 rhs) const;
     bool operator==(const Vec3 rhs) const;
 
+	Vec3& operator=(const Vec3& rhs);
+
     void rotateAroundXRadians(float angleRadians);
     void rotateAroundYRadians(float angleRadians);
     void rotateAroundZRadians(float angleRadians);
@@ -36,6 +38,33 @@ public:
     float distance(const Vec3& other) const;
 
     float lengthXZ() const;
+
+	float dot(const Vec3& v) const {
+		return x * v.x + y * v.y + z * v.z;
+	}
+
+	Vec3 cross(const Vec3& v) const {
+		return {
+			y * v.z - z * v.y,
+			z * v.x - x * v.z,
+			x * v.y - y * v.x
+		};
+	}
+
+	float lengthSquared() const {
+		return x * x + y * y + z * z;
+	}
+
+	float length() const {
+		return std::sqrt(lengthSquared());
+	}
+
+	Vec3 normalized() const {
+		float len = length();
+		if (len < 1e-6f) return { 0, 0, 0 };
+		return { x / len, y / len, z / len };
+	}
+
 
     static Vec3 lerp(const Vec3& start, const Vec3& end, float t);
     static Vec3 ZERO;

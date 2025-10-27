@@ -2,6 +2,8 @@
 #include <mc/src/common/world/actor/player/PlayerInventory.hpp>
 #include <mc/src/common/world/inventory/transaction/ComplexInventoryTransaction.hpp>
 #include <mc/src/common/world/entity/components/AbilitiesComponent.hpp>
+#include <mc/src/common/world/entity/components/UserEntityIdentifierComponent.hpp>
+#include "Player.hpp"
 
 const PlayerInventory& Player::getSupplies() const
 {
@@ -118,9 +120,20 @@ LocalPlayer* Player::getLocalPlayer()
     return reinterpret_cast<LocalPlayer*>(this);
 }
 
- //int Player::getItemUseDuration() const
- //{
- //    using function = decltype(&Player::getItemUseDuration);
- //    auto func = std::bit_cast<function>(this->vtable[162]);
- //    return (this->*func)();
- //}
+SerializedSkin& Player::getSkin()
+{
+    return mSkin;
+}
+
+const SerializedSkin& Player::getSkin() const
+{
+    return mSkin;
+}
+
+UserEntityIdentifierComponent* Player::getUserIdentity() {
+    return tryGetComponent<UserEntityIdentifierComponent>();
+}
+
+const UserEntityIdentifierComponent* Player::getUserIdentity() const {
+	return tryGetComponent<UserEntityIdentifierComponent>();
+}

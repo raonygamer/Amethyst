@@ -7,9 +7,11 @@
  class Recipe;
 // class ItemInstance;
 
-
+/** @vptr {0x4DE78F0} */
 class CraftingContainerController : public ContainerController {
 public:
+	MC static uintptr_t $vtable_for_this;
+
     const Recipe* mCurrentRecipe;
     int mGridSize;
     bool mDisplayOnlyGhostItems;

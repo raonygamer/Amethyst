@@ -15,10 +15,9 @@ class NetworkItemStackDescriptor;
 /** @vptr {0x4E2B6B0} */
 class ItemStack : public ItemStackBase {
 public:
-    /** @abs {0x57CF0A0} */
-    MC static ItemStack& EMPTY_ITEM;
-
-    /* this + 136 */ ItemStackNetIdVariant mNetIdVariant;
+    /** @address {0x57CF128} */
+    MC static ItemStack EMPTY_ITEM;
+	/* this + 136 */ ItemStackNetIdVariant mNetIdVariant;
 
     ItemStack();
     ItemStack(const ItemStack& other);

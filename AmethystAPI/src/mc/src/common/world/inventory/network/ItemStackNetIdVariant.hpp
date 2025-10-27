@@ -1,18 +1,24 @@
 #pragma once
 #include <cstdint>
 #include <variant>
+#include <mc/src/common/world/inventory/network/TypedServerNetId.hpp>
+#include <mc/src/common/world/inventory/network/TypedClientNetId.hpp>
 
-class SomethingWithSize16 {
-    uint64_t a;
-    uint64_t b;
-};
+struct ItemStackNetIdTag {};
+struct ItemStackRequestIdTag {};
+struct ItemStackLegacyRequestIdTag {};
 
 class ItemStackNetIdVariant {
-    // std::variant<TypedServerNetId<struct ItemStackNetIdTag, int32_t, 0>, TypedClientNetId<struct ItemStackRequestIdTag, int32_t, 0>, TypedClientNetId<struct ItemStackLegacyRequestIdTag, int32_t, 0>> mVariant;
-    std::variant<SomethingWithSize16> mVariant;
+public:
+	using ServerId = TypedServerNetId<ItemStackNetIdTag, int, 0>;
+    using RequestId = TypedClientNetId<ItemStackRequestIdTag, int, 0>;
+    using LegacyRequestId = TypedClientNetId<ItemStackLegacyRequestIdTag, int, 0>;
+
+	std::variant<ServerId, RequestId, LegacyRequestId> mVariant;
 
 public:
-    ItemStackNetIdVariant() = default;
+    ItemStackNetIdVariant() 
+		: mVariant(ServerId(0)) {}
 };
 
 static_assert(sizeof(ItemStackNetIdVariant) == 24);
